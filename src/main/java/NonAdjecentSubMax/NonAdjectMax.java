@@ -7,12 +7,11 @@ import java.util.List;
 public class NonAdjectMax {
 
 	public static void main(String[] args) {
-
 		Integer arr[] = {8, 1, 3, -4, 5, 4};
-		//System.out.println(findMaxSubarraySum(arr));
 		
 		System.out.println(adjectMaxSumOfDegreeThree(arr));
 
+		System.out.println(findMaxSubarraySum(arr));
 	}
 
 	static Integer findMaxSubsetElement(Integer arr[], int i) {
@@ -33,6 +32,12 @@ public class NonAdjectMax {
 
 	}
 	
+	/**
+	 * Sub-array which has maximum sum. 
+	 * 
+	 * @param arr array of integers with negative and positive and integers.
+	 * @return maximum sum
+	 */
 	static Integer findMaxSubarraySum(Integer arr[]) {
 		arr[0] =  Integer.max(0, arr[0]);
 		arr[1] = Integer.max(arr[0], arr[1]);
