@@ -7,17 +7,8 @@ import java.util.List;
 public class NonAdjectMax {
 
 	public static void main(String[] args) {
-
-		Integer arr[] = {-2, -1, -3, -4, -5 };
-		List<Integer> storeElement = new ArrayList<Integer>();
-
-		for (int i = 0; i < arr.length-2; i++) {
-
-			storeElement.add(findMaxSubsetElement(arr, i));
-		}
-
-		System.out.println(Collections.max(storeElement));
-
+		Integer arr[] = {-2, 1, 3, -4, 5};
+		System.out.println(findMaxSubarraySum(arr));
 	}
 
 	static Integer findMaxSubsetElement(Integer arr[], int i) {
@@ -38,26 +29,20 @@ public class NonAdjectMax {
 
 	}
 	
+	/**
+	 * Sub-array which has maximum sum. 
+	 * 
+	 * @param arr array of integers with negative and positive and integers.
+	 * @return maximum sum
+	 */
 	static Integer findMaxSubarraySum(Integer arr[]) {
+		arr[0] =  Integer.max(0, arr[0]);
+		arr[1] = Integer.max(arr[0], arr[1]);
 		
-		int max = max(arr);
-		
-		for(int i = 0; i < arr.length; i++) {
-			
-			for(int j = i + 2; j < arr.length; j++) {
-				max = Integer.max(max, arr[i] + arr[j]);
-			}
-			
+		for(int i = 2; i < arr.length; i++) {
+			arr[i] = Integer.max(arr[i - 1], arr[i - 2] + arr[i]);
 		}
-		
-		return -1;
-	}
-	
-	static Integer max(Integer arr[]) {
-		int max = Integer.MIN_VALUE;
-		for(int v : arr)
-			max = Integer.max(max, v);
-		return max;
+		return arr[arr.length - 1];
 	}
 
 }
