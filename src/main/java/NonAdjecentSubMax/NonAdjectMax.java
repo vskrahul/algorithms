@@ -8,8 +8,10 @@ public class NonAdjectMax {
 
 	public static void main(String[] args) {
 
-		Integer arr[] = {-2, 1, 3, -4, 5};
-		System.out.println(findMaxSubarraySum(arr));
+		Integer arr[] = {8, 1, 3, -4, 5, 4};
+		//System.out.println(findMaxSubarraySum(arr));
+		
+		System.out.println(adjectMaxSumOfDegreeThree(arr));
 
 	}
 
@@ -39,5 +41,23 @@ public class NonAdjectMax {
 			arr[i] = Integer.max(arr[i - 1], arr[i - 2] + arr[i]);
 		}
 		return arr[arr.length - 1];
+	}
+	
+	static Integer adjectMaxSumOfDegreeThree(Integer arr[])
+	{
+		if(arr.length < 3)
+			return 0;
+		
+		int maxSum = arr[0] + arr[1] + arr[2];
+		for(int i=1;i<arr.length-2;i++)
+		{
+			int nextSum = arr[i] + arr[i+1] + arr[i+2];
+			if(maxSum < nextSum)
+			{
+				maxSum = nextSum;
+			}
+		}
+		return maxSum;
+		
 	}
 }
