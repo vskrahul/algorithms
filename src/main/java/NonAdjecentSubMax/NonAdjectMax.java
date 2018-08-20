@@ -44,5 +44,4 @@ public class NonAdjectMax {
 		}
 		return arr[arr.length - 1];
 	}
-
 }
