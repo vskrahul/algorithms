@@ -34,11 +34,14 @@ public class Abbreviation {
 			if (a.charAt(i) == match.charAt(m) || a.charAt(i) - 32 == match.charAt(m)) {
 				logger.debug(a.charAt(i) + " == " + match.charAt(m));
 				/*
-				 * If a lower case match is found then keep the count. It will
+				 * If a lower case match is found and next matching then keep the count. It will
 				 * be useful for ignoring UPPER CASE char in a's after a match
 				 * is found. Increment the counter in store.
 				 */
-				if (Character.isLowerCase(a.charAt(i)) && i + 1 < a.length() && a.charAt(i) == Character.toLowerCase(a.charAt(i + 1))) {
+				if (Character.isLowerCase(a.charAt(i)) 
+								&& i + 1 < a.length() 
+								&& a.charAt(i) == Character.toLowerCase(a.charAt(i + 1))) {
+					
 					store[a.charAt(i) - 97] += 1;
 					logger.debug(String.format("store[%c] = %d", a.charAt(i), store[a.charAt(i) - 97]));
 				}
@@ -121,6 +124,7 @@ public class Abbreviation {
 				,"SRTRING"
 				,"ababbaAbAB"
 				,"baaBa"
+				,"bbbaaabB"
 				};
 		
 		String[] b = {
@@ -128,7 +132,8 @@ public class Abbreviation {
 					"LLZOSYAMBTZXMQKLR"
 					,"STRING"
 					,"AABABB"
-					,"BAAA"};
+					,"BAAA"
+					,"BAA"};
 		
 		logger.debug(String.format("if [%s] is matchable with [%s]?", a, b));
 		
