@@ -32,15 +32,15 @@ public class Abbreviation {
 		for (int i = 0, m = 0; i < a.length(); i++) {
 
 			if (a.charAt(i) == match.charAt(m) || a.charAt(i) - 32 == match.charAt(m)) {
-				logger.info(a.charAt(i) + " == " + match.charAt(m));
+				logger.debug(a.charAt(i) + " == " + match.charAt(m));
 				/*
 				 * If a lower case match is found then keep the count. It will
 				 * be useful for ignoring UPPER CASE char in a's after a match
 				 * is found. Increment the counter in store.
 				 */
-				if (Character.isLowerCase(a.charAt(i))) {
+				if (Character.isLowerCase(a.charAt(i)) && i + 1 < a.length() && a.charAt(i) == Character.toLowerCase(a.charAt(i + 1))) {
 					store[a.charAt(i) - 97] += 1;
-					logger.info(String.format("store[%c] = %d", a.charAt(i), store[a.charAt(i) - 97]));
+					logger.debug(String.format("store[%c] = %d", a.charAt(i), store[a.charAt(i) - 97]));
 				}
 
 				/*
@@ -48,7 +48,7 @@ public class Abbreviation {
 				 * chars in a's.
 				 */
 				if (m == match.length() - 1) {
-					logger.info(String.format("%s is matched, [%s] left in String a.", match, a.substring(i + 1)));
+					logger.debug(String.format("%s is matched, [%s] left in String a.", match, a.substring(i + 1)));
 					/*
 					 * Check if a's have any UPPER CASE char left except which
 					 * is in store. If yes... means it is not a match.
@@ -95,7 +95,7 @@ public class Abbreviation {
 			 * This is UPPER CASE char
 			 */
 			if (arr[i] <= 91) {
-				logger.info(arr[i] + " is UPPER CASE char and count = " + store[arr[i] - 65]);
+				logger.debug(arr[i] + " is UPPER CASE char and count = " + store[arr[i] - 65]);
 				if (store[arr[i] - 65] == 0)
 					return true;
 				store[arr[i] - 65] -= 1;
@@ -103,13 +103,37 @@ public class Abbreviation {
 		}
 		return false;
 	}
+	
+	static String abbreviation(String a, String b) {
+		if(a.isEmpty() && b.isEmpty())
+			return "YES";
+		if(a.isEmpty() && !b.isEmpty())
+			return "NO";
+		if(!a.isEmpty() && b.isEmpty())
+			return "NO";
+		return check(a, b) ? "YES" : "NO";
+	}
 
 	public static void main(String[] args) {
-		String a = "aAabbBcdDeeeeEeEEEaaAaaA";
-		String b = "ABDEEEEAA";
+		String[] a = {
+				//"lyylyyllyyylllyylyyylyllylyllllllyyylyllyyyylllllylyylyyllylyylllyhyllllyylllyllylyllylyllllyylylylyyylyllyyylylllyylylllyyllyylylyyllyylyyylllyllylyyllyllllyylylyylllllllyllyyyyyylllyyylylylylyyyyyyyymylyyyylyyyylyyyylyyyylylylylylyllylyylllyllyylylyyllyyyylylllyyyyyllllllyllyylllylyylyllllyyllllylyyyyyllllylylllyyyylyylyyyllyylyyyylylyyyylyyyyylyylllyyllylyyllyllyyyyyylylllylyyyyyllyylyyyyylyyylyylyylylylyyllllyylllyylylllyllyylylyllylllyllyyyyyylyyyllyllyyllyllyylyllyllyyylyyyyylylllyyylllyyyllylyllylylyyllylllylyyyyylyyyylyyyylyyyyylylllllyylyylyyyylyylyyylyylllllllyyyyyyyylyyylylllllylyrlyylllyylylllllylyylyylyyllylyyyyllyyyllylllyllylllylyyyyylylylyyllyyyyylllyyyllllylyllyyyllllyyllyyylllylyylyyyllllyllylllylyllylllyyllllyllyyymyylylllyylllllllyyyyylyyyllyyyyyyylylylyylylyylylyyllyyyllylylyyyylyyyyyyyyyyylllylylllllylllyylllyyllllllyylllllyllyyllyylyyllllyylyylyyllllyyyllllyyylylylylyylyllylllyyylylylylyyylyllllllylyllllyylyllylllyllyylylllylllyllllylyyylylllyyylllyylllllllyllyyy"
+				"LLZOSYAMQRMBTZXTQMQcKGLR"
+				,"SRTRING"
+				,"ababbaAbAB"
+				,"baaBa"
+				};
 		
-		logger.info(String.format("if [%s] is matchable with [%s]?", a, b));
+		String[] b = {
+					//"LYYLYYLYYYLLLYYLYYYYLLYLLLLLLYYYLYLLYYYYLLLLYLYLYYLLYLYLLYYLLLYYLLLLYLYLLYLYLLLLYYLYLLYYLYLLYLLLLYLYLLYLYYLLYYLLYYLYYYLLLYLYLYYLLYLLYYYLYLLLLLLLYLLYYYYYLLLYYYLYLYLYLYYYYYYYLYYYLYYYYLYYLYYYYLYYLYLYLYLLYLYYLLLYLLYYLYLYLLYYYLYLLLYYYYLLLLLLYLLYYLLLYLYYLYLLLLYLLLYLYYYYYLLLLLYLLLYYYYLYYLYYLLYYLYYYYLYLYYYYLYYYYYLYYLLLYYLLYLYLLYLLYYYYYLYLLYLYYYYYLLYYLYYYYLYYYLYYLYYLYLYLYYLLLLYYLLLYYLYLLLYLLYLYLYLLYLLLYLLYYYYYYLYYYLLYLYYLLYLLYLYLLYLLYYYLYYYYLLLLYYYLLLYYYLLYLYLLYLYLYYLLYLLLYLYYYYYLYYYYLYYYYLYYYYYLYLLLLLYYLYYLYYYLYYYYYLYYLLLLLLLYYYYYYYYLYYLYLLLLYLYLYYLLYYLYLLLLLYLYYLYYLYLLYLYYYLYYYLYLLLYLLYLLYLYYYYYLLYYYLLYYYYYLLYYYLLLLYLYLLYYYLLLLYYLLYYYLLLYLYYLYYYLLLYLLYLYLYLLYLLYYLLLYLLYYYYYLYLLLYYLLLLLLLYYYYYLYYLLYYYYYYLYYLLYYLYLYYLLYYYLLYYLYYYYLYYYYYYYYYYYLLLYYLLLLLYLLLYYLLLYYLLLLLYYLLLLYLYYLLYYLYYLLLYYLYYLYYLLLLYYYLLLLYYYYLYLYLYYYLLYLLLYYYLYLYLYLYYLYLLLLLYLYLLLYYYLLYLYLLYYLYLLYLLLYLLYLYYYLYLLLYYLLYYLLLLLLYLYY"
+					"LLZOSYAMBTZXMQKLR"
+					,"STRING"
+					,"AABABB"
+					,"BAAA"};
 		
-		System.out.println(check(a, b) ? "YES" : "NO");
+		logger.debug(String.format("if [%s] is matchable with [%s]?", a, b));
+		
+		for(int i = 3; i < a.length; i++) {
+			System.out.println(String.format("(%s == %s) ? %s", a[i], b[i], abbreviation(a[i],b[i])));
+		}
 	}
 }
